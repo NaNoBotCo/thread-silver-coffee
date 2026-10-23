@@ -78,3 +78,10 @@ html.card .pin h1{font-size:78px}
 html.card .pin .sub{font-size:21px}
 html.card .addr{display:block;margin:10px 0 0;font:700 16px/1.2 var(--f);color:#6a3d1a}
 .qr{margin:14px 0;display:flex;gap:14px;align-items:center}.qr img{background:#fff;border-radius:10px;padding:6px;box-shadow:0 1px 3px rgba(0,0,0,.2)}.qr figcaption{font-size:16px;color:var(--mute)}
+.five{margin:12px 0 4px;padding:14px;border:2px dashed #c9b48f;border-radius:14px;background:rgba(127,110,80,.06)}
+.five label{display:flex;gap:10px;align-items:center;margin:8px 0;font-size:17px}
+.five label b{width:1.2em;text-align:right;color:var(--mute)}
+.five input{flex:1;min-width:0;font:inherit;font-size:17px;padding:10px 12px;border:1px solid #c9b48f;border-radius:10px;background:#fffdf7;color:#211a14}
+.five label.share input{flex:0 0 5.5em}
+.btn.line{background:#06c755;color:#000!important}
+.offers li .btn{margin-top:10px;font-size:15px;padding:9px 15px}

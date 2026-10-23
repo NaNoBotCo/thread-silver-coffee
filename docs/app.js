@@ -26,15 +26,39 @@
     else el.remove();
   });
 
-  /* the five makers: an email already laid out */
+  /* the first five makers: typed on the page, sent on LINE or by email, or copied */
+  var form = document.getElementById("fiveForm"), open5 = document.getElementById("five");
+  var line5 = document.getElementById("fiveLine"), mail5 = document.getElementById("fiveMail"), copy5 = document.getElementById("fiveCopy"), say5 = document.getElementById("fiveSay");
+  function fiveText() {
+    var th = h.dataset.lang === "th", rows = [];
+    [].forEach.call(form.querySelectorAll("input[name=m]"), function (i, k) { rows.push((k + 1) + ". " + (i.value.trim() || "…")); });
+    var share = document.getElementById("fiveShare").value || "";
+    return (th ? "ช่างห้าคนแรกสำหรับตลาดของ CCA" : "The first five makers for CCA's market") + "\n\n" + rows.join("\n") + "\n\n" +
+      (th ? "ส่วนแบ่งของ CCA ต่อการขาย: " : "CCA's share of each sale: ") + share + "%\n";
+  }
   function mailBody() {
-    var a = document.getElementById("mail5"); if (!a) return;
-    var th = h.dataset.lang === "th";
-    var subj = th ? "ช่างห้าคนแรก" : "The first five makers";
-    var body = th
-      ? "ช่างห้าคนแรก\n\n1. ชื่อ / หมู่บ้าน / ทำอะไร / เบอร์ LINE\n2.\n3.\n4.\n5.\n\nส่วนแบ่งของ CCA ต่อการขาย: ___%\n"
-      : "The first five makers\n\n1. Name / village / what they make / LINE number\n2.\n3.\n4.\n5.\n\nCCA's share of each sale: ___%\n";
-    a.href = "mailto:nan@motdang.net?subject=" + encodeURIComponent(subj) + "&body=" + encodeURIComponent(body);
+    if (!form) return;
+    var th = h.dataset.lang === "th", t = fiveText();
+    line5.href = "https://line.me/R/oaMessage/%40964yxgnk/?" + encodeURIComponent(t);
+    mail5.href = "mailto:nan@motdang.net?subject=" + encodeURIComponent(th ? "ช่างห้าคนแรก" : "The first five makers") + "&body=" + encodeURIComponent(t);
+    var first = form.querySelector("input[name=m]"), ph = first.getAttribute(th ? "data-th" : "data-en");
+    [].forEach.call(form.querySelectorAll("input[name=m]"), function (i) { i.placeholder = ph; });
+  }
+  function showFive(focus) {
+    if (!form) return;
+    form.hidden = false; open5.setAttribute("aria-expanded", "true"); mailBody();
+    if (focus) { form.scrollIntoView({ behavior: "smooth", block: "center" }); setTimeout(function () { form.querySelector("input[name=m]").focus({ preventScroll: true }); }, 400); }
+  }
+  if (form) {
+    open5.addEventListener("click", function () { if (form.hidden) showFive(true); else { form.hidden = true; open5.setAttribute("aria-expanded", "false"); } });
+    [].forEach.call(document.querySelectorAll("[data-open-five]"), function (b) { b.addEventListener("click", function () { showFive(true); }); });
+    form.addEventListener("input", mailBody);
+    form.addEventListener("submit", function (e) { e.preventDefault(); });
+    copy5.addEventListener("click", function () {
+      var t = fiveText(), th = h.dataset.lang === "th", ok = function () { say5.textContent = th ? "คัดลอกแล้ว วางใน LINE หรืออีเมลถึง nan@motdang.net" : "Copied. Paste it into LINE, or an email to nan@motdang.net."; };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(ok, fallback); else fallback();
+      function fallback() { var ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); ok(); } catch (e) { say5.textContent = t; } ta.remove(); }
+    });
   }
   setLang(h.dataset.lang === "th" ? "th" : "en");
 })();

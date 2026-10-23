@@ -51,7 +51,7 @@
   <li><span class="status live"><span lang="en">LIVE</span><span lang="th">ใช้ได้แล้ว</span></span><span lang="en">A page of their own for any maker, made on a phone after signing in with LINE. <a href="https://sites.motdang.net/make">sites.motdang.net</a></span><span lang="th">หน้าเว็บของตัวเองสำหรับช่างทุกคน สร้างบนมือถือ เข้าสู่ระบบด้วย LINE <a href="https://sites.motdang.net/make">sites.motdang.net</a></span></li>
   <li><span class="status live"><span lang="en">LIVE</span><span lang="th">ใช้ได้แล้ว</span></span><span lang="en">Paid in Art: CCA can pay part of Hongdam's fees in textiles or recordings. <a href="https://motdang.net/sites/paid-in-art/">Paid in Art</a></span><span lang="th">จ่ายด้วยงานศิลปะ: CCA จ่ายค่าบริการของ Hongdam บางส่วนเป็นผ้าหรืองานบันทึกเสียงได้ <a href="https://motdang.net/sites/paid-in-art/">Paid in Art</a></span></li>
   <li><span class="status built"><span lang="en">BUILT</span><span lang="th">พร้อม ยังไม่เปิด</span></span><span lang="en">An Etsy shop under motdang.net Co., Ltd., each piece naming its maker and village. The kit is ready; the shop is not open.</span><span lang="th">ร้าน Etsy ในนาม บริษัท มดแดง ดอท เน็ต จำกัด ทุกชิ้นบอกชื่อช่างและหมู่บ้าน ชุดเตรียมร้านพร้อมแล้ว ร้านยังไม่เปิด</span></li>
-  <li><span class="status ask"><span lang="en">ASK</span><span lang="th">รอคำตอบ</span></span><span lang="en">Which makers start, and CCA's share of each sale.</span><span lang="th">ช่างคนไหนเริ่มก่อน และส่วนแบ่งของ CCA ต่อการขายแต่ละครั้ง</span></li>
+  <li><span class="status ask"><span lang="en">ASK</span><span lang="th">รอคำตอบ</span></span><span lang="en">Which makers start, and CCA's share of each sale.</span><span lang="th">ช่างคนไหนเริ่มก่อน และส่วนแบ่งของ CCA ต่อการขายแต่ละครั้ง</span><br><button class="btn" type="button" data-open-five><span lang="en">Send the first five makers</span><span lang="th">ส่งรายชื่อช่างห้าคนแรก</span></button></li>
  </ul>
 </div></section>
 
@@ -121,9 +121,24 @@
  <p class="lede"><span lang="en">Five makers, a phone each, and CCA's share. A maker's page takes minutes on a phone.</span><span lang="th">ช่างห้าคน มือถือคนละเครื่อง และส่วนแบ่งของ CCA หน้าเว็บของช่างหนึ่งคนใช้เวลาไม่กี่นาทีบนมือถือ</span></p>
  <figure class="qr"><img src="qr.svg" width="132" height="132" alt="QR code: nanobotco.github.io/thread-silver-coffee"><figcaption><span lang="en">Scan to open this page on a phone</span><span lang="th">สแกนเพื่อเปิดหน้านี้บนมือถือ</span></figcaption></figure>
  <div class="cta">
-  <a class="btn" id="mail5" href="mailto:nan@motdang.net"><span lang="en">Send the first five makers</span><span lang="th">ส่งรายชื่อช่างห้าคนแรก</span></a>
+  <button class="btn" id="five" type="button" aria-expanded="false" aria-controls="fiveForm"><span lang="en">Send the first five makers</span><span lang="th">ส่งรายชื่อช่างห้าคนแรก</span></button>
   <a class="btn dark" href="https://hongdam.net/for/cca/"><span lang="en">CCA's page at Hongdam</span><span lang="th">หน้า CCA ที่ Hongdam</span></a>
  </div>
+ <form id="fiveForm" class="five" hidden>
+  <p><span lang="en">One maker a line: name, village, what they make, a phone or LINE number.</span><span lang="th">ช่างหนึ่งคนต่อหนึ่งบรรทัด: ชื่อ หมู่บ้าน ทำอะไร เบอร์โทรหรือ LINE</span></p>
+  <label><b>1</b><input name="m" autocomplete="off" data-en="Name, village, craft, phone" data-th="ชื่อ หมู่บ้าน งาน เบอร์โทร"></label>
+  <label><b>2</b><input name="m" autocomplete="off"></label>
+  <label><b>3</b><input name="m" autocomplete="off"></label>
+  <label><b>4</b><input name="m" autocomplete="off"></label>
+  <label><b>5</b><input name="m" autocomplete="off"></label>
+  <label class="share"><span lang="en">CCA's share of each sale</span><span lang="th">ส่วนแบ่งของ CCA ต่อการขาย</span><input id="fiveShare" type="number" inputmode="numeric" min="0" max="95" value="45"><span>%</span></label>
+  <div class="cta">
+   <a class="btn line" id="fiveLine" href="#" target="_blank" rel="noopener"><span lang="en">Send on LINE</span><span lang="th">ส่งทาง LINE</span></a>
+   <a class="btn ghost" id="fiveMail" href="#"><span lang="en">Send by email</span><span lang="th">ส่งทางอีเมล</span></a>
+   <button class="btn ghost" id="fiveCopy" type="button"><span lang="en">Copy</span><span lang="th">คัดลอก</span></button>
+  </div>
+  <p class="say" id="fiveSay" aria-live="polite"></p>
+ </form>
  <details><summary><span lang="en">Sources</span><span lang="th">แหล่งข้อมูล</span></summary>
   <ul class="src">
    <li>Victoria Vorreiter, “Hmong Threads of Life”, Asian Textiles 65 (Nov 2016): skirts, batik, story cloths — <a href="https://www.tribalmusicasia.com/hmong-threads-of-life-article-nov-2016.pdf">tribalmusicasia.com</a></li>
