@@ -1,0 +1,6 @@
+{
+  "name": "thread-silver-coffee",
+  "private": true,
+  "description": "Tools for the Thread, Silver, Coffee minisite: screenshots, share card, button test",
+  "devDependencies": { "playwright-core": "1.63.0" }
+}
