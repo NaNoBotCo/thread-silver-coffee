@@ -514,7 +514,7 @@
     var clock = 0, B = null, lay = null, tasks = [], camReady = false;
     var claimed = [], shown = [], count = 0, flashes = [], timers = [], cards = [], sayFn = null;
     var cam = { x: 0, hold: null };
-    var Wk = { x: S.reduced ? X0 + P * 0.5 : X0 - 20, dir: 1, face: 1, ph: S.reduced ? 0.3 : 0, vf: 1, k: 1, pauseUntil: 0, raiseT0: -9, turning: false, turnT0: -9 };
+    var Wk = { x: S.reduced ? X0 + P * 0.5 : X0 + 36, dir: 1, face: 1, ph: S.reduced ? 0.3 : 0, vf: 1, k: 1, pauseUntil: 0, raiseT0: -9, turning: false, turnT0: -9 };
 
     function layout(avail) {
       var ih = window.innerHeight || 700, cap = clamp(ih * 0.6, 250, 560), all = avail >= 860, s, Vw, cw = avail;
@@ -587,13 +587,14 @@
         Wk.raiseT0 = clock + delay; Wk.pauseUntil = Math.max(Wk.pauseUntil, clock + delay + 1.2);
         flashes.push({ i: i, t0: clock + delay + 0.3 });
       }
-      if (claimed[i]) { claimed[i].hop = clock + delay + 0.3; setSay(function () { return sayAgain(i); }); return; }
+      if (claimed[i]) { claimed[i].hop = clock + delay + 0.3; S.ting(i * 7 + 3, 0, 0.02); setSay(function () { return sayAgain(i); }); return; }
       claimed[i] = { t0: clock + delay };
+      S.ting(i * 7 + 3, 0, 0.035);
+      if (claimed.filter(Boolean).length === N) S.jingle(7, 5);
       later(delay + 0.5, function () {
         shown[i] = true; count++;
         read.textContent = countText(count);
-        S.ting(i * 7 + 3, 0, 0.035);
-        if (count === N) { setSay(sayDone); words(); later(0.5, function () { S.jingle(7, 5); }); }
+        if (count === N) { setSay(sayDone); words(); }
         else setSay(function () { return saySnap(i); });
       });
     }

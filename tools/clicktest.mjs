@@ -1,9 +1,7 @@
 // clicktest.mjs — load the page, press every button, switch languages, report console errors
-import { createRequire } from "module";
-const require = createRequire("/Users/annikapeacock/Developer/claude code projects/share-cards/package.json");
-const { chromium } = require("playwright-core");
+import { launch } from "./browser.mjs";
 const url = process.argv[2] || "http://127.0.0.1:9013/index.html";
-const b = await chromium.launch({ executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" });
+const b = await launch();
 const errs = [];
 for (const vp of [{ width: 390, height: 844, mobile: true }, { width: 1440, height: 900, mobile: false }]) {
   const ctx = await b.newContext({ viewport: { width: vp.width, height: vp.height }, deviceScaleFactor: 2, isMobile: vp.mobile, hasTouch: vp.mobile });

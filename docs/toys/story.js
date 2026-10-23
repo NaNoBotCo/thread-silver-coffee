@@ -78,10 +78,16 @@
         person(0.42, 0.7, 1, K.pink, 1, sat([[0.445, 0.56], [0.49, 0.56], [0.485, 0.64], [0.45, 0.64]], 0.5, K.brown).concat([S.straight(Pt(0.425, 0.6), Pt(0.455, 0.565), sw * 1.2, K.brown)])),
         /* a man with a hoe */
         person(0.53, 0.72, 1, K.red, 0, [S.straight(Pt(0.565, 0.6), Pt(0.61, 0.74), sw * 1.5, K.brown), S.straight(Pt(0.61, 0.74), Pt(0.64, 0.73), sw * 2.6, K.grey)]),
-        /* chickens */
-        [[0.06, 0.7], [0.11, 0.72]].reduce(function (o, q, i) { o = o.concat(S.knots(X(q[0]), Y(q[1]), u * 0.018, u * 0.013, Math.max(1.2, u * 0.008), function () { return i ? "#b5651d" : K.white; }, 60 + i)); o.push(S.straight(Pt(q[0] + 0.012, q[1] - 0.016), Pt(q[0] + 0.016, q[1] - 0.026), sw * 1.5, K.red), S.straight(Pt(q[0], q[1] + 0.012), Pt(q[0], q[1] + 0.028), sw, K.yellow)); return o; }, []),
-        /* a pig */
-        sat([[0.2, 0.72], [0.3, 0.72], [0.31, 0.77], [0.19, 0.77]], 0, K.black).concat([S.straight(Pt(0.21, 0.77), Pt(0.21, 0.8), sw * 1.5, K.black), S.straight(Pt(0.29, 0.77), Pt(0.29, 0.8), sw * 1.5, K.black), S.knot(Pt(0.315, 0.735), Math.max(1.2, u * 0.008), K.pink)]),
+        /* chickens: body, tail fan, comb, beak, two yellow legs */
+        [[0.07, 0.69], [0.14, 0.725]].reduce(function (o, q, i) { o = o.concat(S.knots(X(q[0]), Y(q[1]), u * 0.04, u * 0.028, Math.max(1.4, u * 0.011), function () { return i ? "#b5651d" : K.white; }, 60 + i));
+          o.push(S.knot(Pt(q[0] + 0.034, q[1] - 0.03), Math.max(1.6, u * 0.016), i ? "#b5651d" : K.white), S.knot(Pt(q[0] + 0.034, q[1] - 0.048), Math.max(1.4, u * 0.011), K.red), S.straight(Pt(q[0] + 0.044, q[1] - 0.03), Pt(q[0] + 0.06, q[1] - 0.024), sw * 1.4, K.yellow));
+          [-0.05, -0.04, -0.03].forEach(function (d, k) { o.push(S.straight(Pt(q[0] - 0.03, q[1] - 0.01), Pt(q[0] + d - 0.02, q[1] - 0.06 + k * 0.012), sw * 1.5, i ? K.brown : K.grey)); });
+          o.push(S.straight(Pt(q[0] - 0.005, q[1] + 0.026), Pt(q[0] - 0.005, q[1] + 0.05), sw * 1.2, K.yellow), S.straight(Pt(q[0] + 0.012, q[1] + 0.026), Pt(q[0] + 0.012, q[1] + 0.05), sw * 1.2, K.yellow)); return o; }, []),
+        /* a pig: round body, head with ear and snout, four legs, a curled tail */
+        (function () { var o = sat(S.curve([[0.19, 0.745], [0.215, 0.718], [0.26, 0.712], [0.30, 0.722], [0.318, 0.745], [0.30, 0.772], [0.25, 0.778], [0.21, 0.772]], true, 4), 0.3, "#2b2b2b");
+          o = o.concat(sat([[0.30, 0.725], [0.335, 0.728], [0.343, 0.752], [0.30, 0.758]], 0.3, "#2b2b2b"), sat([[0.305, 0.722], [0.318, 0.70], [0.328, 0.726]], 0.3, "#1f1f1f"));
+          [0.215, 0.235, 0.285, 0.302].forEach(function (x) { o.push(S.straight(Pt(x, 0.772), Pt(x, 0.805), sw * 1.9, "#1f1f1f")); });
+          o.push(S.knot(Pt(0.345, 0.745), Math.max(1.6, u * 0.012), K.pink), S.knot(Pt(0.322, 0.737), Math.max(1.2, u * 0.006), K.white), S.straight(Pt(0.19, 0.735), Pt(0.172, 0.72), sw * 1.2, "#1f1f1f"), S.straight(Pt(0.172, 0.72), Pt(0.183, 0.704), sw * 1.2, "#1f1f1f")); return o; })(),
         /* New Year: two in festival dress, the ball between them */
         person(0.72, 0.78, 1, K.purple, 0, null, true).concat(person(0.86, 0.78, 1, K.pink, 2, null, true)),
         /* the river: rows of pale running stitch, a long boat, a rower in red */

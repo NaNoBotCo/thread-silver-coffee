@@ -8,7 +8,8 @@ Live: https://nanobotco.github.io/thread-silver-coffee/
 - `docs/stitch.js` — thread on linen as geometry, ported from anidoodle's embroidery kit: cloth, appliqué, stem, split, running, satin and cross stitch, French knots.
 - `docs/toys/*.js` — one file per toy; each registers `window.TOYS.<name>(root)`. `fest.js` is the hero.
 - `docs/app.js` — language switch, mounts the toys, the "first five makers" email.
-- `tools/shoot.mjs` — screenshots in phone emulation; `tools/card.mjs` — the share card from the page's own hero.
+- `tools/shoot.mjs` — screenshots in phone emulation; `tools/card.mjs` — the share card from the page's own hero; `tools/sheet.py` — every toy at phone size on one picture; `tools/clicktest.mjs` — presses every button at phone and desktop size and reports console errors. All need `python3 -m http.server 9013` in `docs/` and `npm install` here (playwright-core); set `CHROME=/path/to/chrome` to use an installed Chrome, or run `npx playwright-core install chromium`. `PLAYWRIGHT_FROM=<folder>` borrows playwright-core from another project.
+- `?hour=21` on the page sets the hero's sky to that hour in Chiang Mai (it follows the real hour otherwise).
 - `?gifts=` in the page's hash (`#gifts=19593`) adds a line to "Where the baht goes" comparing a year of gifts with CCA's share of sales.
 
 Text and pictures CC BY 4.0, credit NaNoBotCo. Code MIT.

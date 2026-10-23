@@ -50,11 +50,11 @@
       neck(c, P, u); F.face(c, P, u);
       /* checkered strips wound in rings to a peak, a strand of beads round the base (Vorreiter 2016, p.21) */
       var hs = [];
-      for (var ring = 0; ring < 7; ring++) { var y = -3.25 - ring * 0.2, half = 0.62 - ring * 0.045, x0 = -half + ring * 0.05;
-        for (var k = 0; k < 10; k++) { var xa = x0 + (k * 2 * half) / 10, xb = xa + (2 * half) / 10; var poly = [P(xa, y), P(xb, y), P(xb + 0.03, y - 0.2), P(xa + 0.03, y - 0.2)];
+      for (var ring = 0; ring < 7; ring++) { var y = -3.25 - ring * 0.2, half = 0.62 - ring * 0.085, half2 = half - 0.085;
+        for (var k = 0; k < 10; k++) { var xa = -half + (k * 2 * half) / 10, xb = xa + (2 * half) / 10, xa2 = -half2 + (k * 2 * half2) / 10, xb2 = xa2 + (2 * half2) / 10; var poly = [P(xa, y), P(xb, y), P(xb2, y - 0.2), P(xa2, y - 0.2)];
           S.cloth(c, poly, (k + ring) % 2 ? "#151515" : "#f4f4f4", { pitch: 1, grain: 0.25, shadow: ring === 0 }); } }
       /* the peak crossing at the front */
-      S.cloth(c, [P(-0.2, -4.6), P(0.35, -4.6), P(0.18, -5.0)], "#151515", { pitch: 1, grain: 0.25 });
+      S.cloth(c, [P(-0.1, -4.65), P(0.1, -4.65), P(0, -4.95)], "#151515", { pitch: 1, grain: 0.25 });
       for (var b2 = 0; b2 < 12; b2++) hs.push(S.knot(P(-0.6 + b2 * 0.11, -3.22), W(u, 0.05), [C.red, C.yellow, C.green, C.white][b2 % 4]));
       S.sew(c, hs);
     },
@@ -62,7 +62,7 @@
       jacket(c, P, u, "#141414");
       /* a cross-stitched strip under the collar */
       var sts = [];
-      for (var i = 0; i < 9; i++) sts = sts.concat(S.cross(P(-0.62 + i * 0.14, -1.25)[0], P(0, -1.25)[1], u * 0.1, W(u, 0.035), ["#1f8a8a", C.green, C.blue, C.red][i % 4]));
+      for (var rw = 0; rw < 2; rw++) for (var i = 0; i < 7; i++) sts = sts.concat(S.cross(P(-0.6 + i * 0.2, 0)[0], P(0, -0.95 + rw * 0.22)[1], u * 0.15, W(u, 0.05), ["#1f8a8a", C.green, C.blue, C.red][(i + rw) % 4]));
       S.sew(c, sts);
       neck(c, P, u); F.face(c, P, u);
       /* the red ruff: wool, round the neck and down the front like a stole */
@@ -81,9 +81,9 @@
       jacket(c, P, u, "#121212");
       /* two tall arches of silver beads on the chest, square fasteners, striped cuffs */
       var sts = [];
-      [-1, 1].forEach(function (s) { for (var b = 0; b < 12; b++) { var t = b / 11, x = s * (0.18 + 0.32 * Math.sin(t * Math.PI)), y = -2.25 + t * 1.5; sts.push(S.knot(P(x, y), W(u, 0.06), C.silver)); } });
+      [0.66, 0.5, 0.34].forEach(function (R) { for (var b = 0; b <= 14; b++) { var th = (Math.PI * b) / 14; sts.push(S.knot(P(-R * Math.cos(th), -0.85 - R * 1.9 * Math.sin(th)), W(u, 0.06), C.silver)); } });
       for (var f = 0; f < 5; f++) { var y2 = -2.1 + f * 0.3; sts = sts.concat(S.satin([P(-0.07, y2), P(0.07, y2)], function () { return u * 0.07; }, W(u, 0.03), W(u, 0.03), function () { return C.silver; })); }
-      bandsAcross(c, P, u, -0.38, 4, 0.08, [C.red, C.blue, C.white, C.red], -1.15, 1.15);
+      bandsAcross(c, P, u, -0.38, 4, 0.08, [C.red, "#141414", C.yellow, C.white], -1.15, 1.15);
       S.sew(c, sts);
       neck(c, P, u); F.face(c, P, u);
       var tb = S.curve([P(-0.62, -3.15), P(-0.66, -3.55), P(-0.4, -3.85), P(0.1, -3.9), P(0.55, -3.7), P(0.66, -3.35), P(0.62, -3.12), P(0, -3.22)], true, 6);
@@ -102,7 +102,7 @@
       var tb = S.curve([P(-0.95, -3.2), P(-0.98, -3.55), P(-0.6, -3.8), P(0, -3.85), P(0.6, -3.8), P(0.98, -3.55), P(0.95, -3.2), P(0, -3.3)], true, 6);
       S.applique(c, tb, "#141414", "#3a3a3a", { pitch: 1, grain: 0.3, inset: W(u, 0.04), dash: W(u, 0.1), gap: W(u, 0.08), tw: W(u, 0.03) });
       var ts = [], cols = [C.red, "#e83e8c", "#f2e27a", "#9cc7da", C.green];
-      for (var k = 0; k < 15; k++) { var x = -0.92 + k * 0.13, side = Math.abs(x) > 0.46, len = side ? 0.45 + (k % 3) * 0.14 : 0.08; ts.push(S.straight(P(x, -3.25), P(x * (side ? 1.06 : 1), -3.25 + len), W(u, 0.045), cols[k % 5])); }
+      for (var k = 0; k < 15; k++) { var x = -0.92 + k * 0.13, side = Math.abs(x) > 0.46, len = 0.45 + (k % 3) * 0.14; if (!side) continue; ts.push(S.straight(P(x, -3.25), P(x * (side ? 1.06 : 1), -3.25 + len), W(u, 0.045), cols[k % 5])); }
       [[-0.75, -3.75, C.yellow], [-0.35, -3.88, "#e83e8c"], [0.1, -3.92, C.green], [0.5, -3.86, C.yellow], [0.85, -3.7, "#e83e8c"]].forEach(function (p, z) { ts = ts.concat(S.pompom(P(p[0], p[1])[0], P(p[0], p[1])[1], Math.max(1, u * 0.13), p[2], 60 + z)); });
       for (var b = 0; b < 14; b++) ts.push(S.knot(P(-0.88 + b * 0.135, -3.5), W(u, 0.04), C.white));
       S.sew(c, ts);
@@ -120,7 +120,7 @@
       S.applique(c, tail, "#c8202a", "#8e1219", { pitch: 1, grain: 0.3, inset: W(u, 0.03), dash: W(u, 0.08), gap: W(u, 0.07), tw: W(u, 0.03) });
       S.applique(c, hc, "#c8202a", "#8e1219", { pitch: 1, grain: 0.3, inset: W(u, 0.04), dash: W(u, 0.1), gap: W(u, 0.08), tw: W(u, 0.03) });
       var hs = []; [["#2b59c3", -3.5], ["#2f9e5b", -3.62], ["#f6c445", -3.74]].forEach(function (b) { hs.push(S.straight(P(-0.6, b[1]), P(0.6, b[1] - 0.05), W(u, 0.06), b[0])); });
-      for (var f = 0; f < 10; f++) hs.push(S.straight(P(-0.62 + f * 0.13, -3.12), P(-0.62 + f * 0.13, -2.98), W(u, 0.04), "#f4f1ea"));
+      for (var f = 0; f < 10; f++) hs.push(S.straight(P(-0.62 + f * 0.13, -3.2), P(-0.62 + f * 0.13, -3.13), W(u, 0.04), "#f4f1ea"));
       for (var tl = 0; tl < 5; tl++) hs.push(S.straight(P(0.7 + tl * 0.045, -2.58), P(0.7 + tl * 0.05, -2.32), W(u, 0.045), tl % 2 ? "#f4f1ea" : "#e0303a"));
       S.sew(c, hs);
     }
@@ -146,7 +146,8 @@
         DRAW[p.id](c, P, u);
         c.restore();
         /* silver spots for the glints */
-        var spots = []; for (var k = 0; k < 4; k++) spots.push(P(-0.45 + r() * 0.9, -2.2 + r() * 0.8));
+        var SP = { akha: [[-0.3, -1.9], [0.2, -1.66], [0, -2.0], [-0.1, -1.66]], hmong: [[-0.4, -3.22], [0.3, -3.22], [0, -3.22], [-0.15, -3.22]], mien: [[-0.4, -3.45], [0.3, -3.75], [0.1, -3.45], [-0.2, -3.75]], lahu: [[-0.5, -1.4], [0.34, -1.3], [0, -1.5], [-0.34, -1.3]], lisu: [[-0.6, -3.5], [0.5, -3.5], [0, -3.5], [-0.2, -3.5]], karen: [] }[p.id];
+        var spots = SP.map(function (q) { return P(q[0], q[1]); });
         return { L: L, spots: spots };
       });
     }
@@ -160,8 +161,8 @@
         c.drawImage(sprites[i].L.canvas, -cell / 2, -cell * 0.95, cell, cell); c.restore();
         if (i === sel) { c.save(); c.strokeStyle = "#1d1a16"; c.lineWidth = 3; c.setLineDash([6, 4]); c.strokeRect(x + 3, y + 3, cell - 6, cell - 6); c.restore(); }
         /* a glint moves over the silver, one square at a time */
-        var ph = (st.t * 0.8 + i * 0.37) % 1, sp = sprites[i].spots[Math.floor(st.t * 0.8 + i) % 4];
-        if (!S.reduced && ph < 0.35) { var g = Math.sin((ph / 0.35) * Math.PI), gx = x + sp[0], gy = y + sp[1]; c.save(); c.globalAlpha = g; c.strokeStyle = "#fff"; c.lineWidth = 1.4; c.beginPath(); c.moveTo(gx - 5 * g, gy); c.lineTo(gx + 5 * g, gy); c.moveTo(gx, gy - 5 * g); c.lineTo(gx, gy + 5 * g); c.stroke(); c.restore(); }
+        var ph = (st.t * 0.8 + i * 0.37) % 1, spl = sprites[i].spots, sp = spl.length ? spl[Math.floor(st.t * 0.8 + i) % spl.length] : null;
+        if (sp && !S.reduced && ph < 0.35) { var g = Math.sin((ph / 0.35) * Math.PI), gx = x + sp[0], gy = y + sp[1]; c.save(); c.globalAlpha = g; c.strokeStyle = "#fff"; c.lineWidth = 1.4; c.beginPath(); c.moveTo(gx - 5 * g, gy); c.lineTo(gx + 5 * g, gy); c.moveTo(gx, gy - 5 * g); c.lineTo(gx, gy + 5 * g); c.stroke(); c.restore(); }
       });
     }, { resize: function () { size(); } });
     function pick(i) { sel = i; wob[i].v += 9; S.jingle(5, i + 2); btns.forEach(function (b, k) { b.setAttribute("aria-pressed", k === i ? "true" : "false"); }); words(); st.kick(); }

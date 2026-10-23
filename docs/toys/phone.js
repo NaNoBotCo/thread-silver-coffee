@@ -137,7 +137,7 @@
     function sizeCanvas() {
       var avail = root.clientWidth - 22; if (avail < 120) return;
       var cw = Math.min(avail, 440), vh = window.innerHeight || 700, ch = canvas.offsetHeight, extra = root.offsetHeight - ch;
-      var h = Math.round(clamp(Math.min(vh - extra - 12, 0.6 * vh, cw * 1.3), 250, 560));
+      var h = Math.round(clamp(Math.min(vh - extra - 12, 0.6 * vh, cw * 1.62), 250, 560));
       if (Math.abs(cw - lastW) > 0.5) { canvas.style.width = cw + "px"; lastW = cw; }
       if (h !== lastH) { canvas.style.height = h + "px"; lastH = h; }
     }
@@ -179,7 +179,7 @@
     }
     /* the thumb lies across the lower left of the screen: two cut pieces, a nail, creases at the joint */
     function bakeThumb() {
-      var L = S.layer(g.W, g.H, g.dpr), c = L.ctx, u = g.u, base = P(-1.0, 1.8), joint = P(-0.72, 1.24), tip = P(-0.42, 0.84), d = [tip[0] - joint[0], tip[1] - joint[1]], dl = Math.hypot(d[0], d[1]) || 1, nx = -d[1] / dl, ny = d[0] / dl;
+      var L = S.layer(g.W, g.H, g.dpr), c = L.ctx, u = g.u, base = P(-0.93, 1.84), joint = P(-0.71, 1.24), tip = P(-0.42, 0.84), d = [tip[0] - joint[0], tip[1] - joint[1]], dl = Math.hypot(d[0], d[1]) || 1, nx = -d[1] / dl, ny = d[0] / dl;
       d = [d[0] / dl, d[1] / dl];
       var o = { inset: 2.4, dash: 3.4, gap: 2.8, tw: 0.95, pitch: 3, grain: 0.5 };
       S.applique(c, capsule(base, joint, 0.275 * u, 0.25 * u), SKIN, SKIN_THREAD, { inset: o.inset, dash: o.dash, gap: o.gap, tw: o.tw, pitch: 3, grain: 0.5, seed: 93 });

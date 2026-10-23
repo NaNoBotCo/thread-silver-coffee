@@ -131,7 +131,7 @@
     "[data-toy=money] .say{font-size:15px;line-height:1.45}",
     "html[data-lang=th] [data-toy=money] .say{line-height:1.65}",
     "[data-toy=money] .ctl.sl{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:2px 18px;margin:6px 2px 0}",
-    "[data-toy=money] .ctl.sl label{display:grid;grid-template-columns:minmax(64px,31%) minmax(0,1fr) auto;gap:0 8px;align-items:center;min-height:28px;font-size:14px}",
+    "[data-toy=money] .ctl.sl label{display:grid;grid-template-columns:minmax(82px,34%) minmax(0,1fr) auto;gap:0 8px;align-items:center;min-height:28px;font-size:14px}",
     "[data-toy=money] .ctl.sl .lb{font-weight:600;line-height:1.25}",
     "[data-toy=money] .ctl.sl .lb small{display:block;font-weight:400;font-size:12px;color:#6a5b4b}",
     "[data-toy=money] .ctl.sl .lb small:empty{display:none}",

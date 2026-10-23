@@ -218,7 +218,7 @@
   /* silver thread colours and the beads, coins and pompoms of the dress */
   S.SILVER = "#d9dee2"; S.SILVER2 = "#aeb6bd";
   S.bead = function (x, y, r) { return knot([x, y], r, S.SILVER); };
-  S.coin = function (x, y, r, seed) { var out = S.satin([[x - r, y], [x + r, y]], function (t) { return Math.sqrt(Math.max(0, 1 - Math.pow(2 * t - 1, 2))) * r; }, Math.max(0.9, r * 0.32), Math.max(0.6, r * 0.28), function () { return S.SILVER; }); out.push(knot([x, y], Math.max(0.5, r * 0.22), S.SILVER2)); return out; };
+  S.coin = function (x, y, r, seed) { if (r < 3.4) return [knot([x, y], r * 1.12, S.SILVER), knot([x, y], r * 0.42, S.SILVER2)]; var out = S.satin([[x - r, y], [x + r, y]], function (t) { return Math.sqrt(Math.max(0, 1 - Math.pow(2 * t - 1, 2))) * r; }, Math.max(0.9, r * 0.32), Math.max(0.6, r * 0.28), function () { return S.SILVER; }); out.push(knot([x, y], Math.max(0.5, r * 0.22), S.SILVER2)); return out; };
   S.pompom = function (x, y, r, col, seed) { return S.knots(x, y, r, r, Math.max(0.8, r * 0.2), function (u, v) { return (u * u + v * v) > 0.55 ? mix(col, "#1a120c", 0.18) : col; }, seed || 9); };
 
   /* reduced motion, once */

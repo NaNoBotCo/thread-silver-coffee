@@ -48,14 +48,19 @@
       [-1, 1].forEach(function (s) { var a = P(s * 0.85, G.sh + u * 0.1), b = P(s * 1.45, G.waist - u * 0.1), dx = b[0] - a[0], dy = b[1] - a[1], Ls = Math.hypot(dx, dy), nx = -dy / Ls, ny = dx / Ls, hw = u * 0.22;
         S.cloth(c, [[a[0] + nx * hw, a[1] + ny * hw], [b[0] + nx * hw * 0.8, b[1] + ny * hw * 0.8], [b[0] - nx * hw * 0.8, b[1] - ny * hw * 0.8], [a[0] - nx * hw, a[1] - ny * hw]], kind === "blue" ? "#1b2748" : "#141414", { pitch: 1.3, grain: 0.35 });
         var cuff = []; [0.72, 0.8, 0.88].forEach(function (t, q) { var x = a[0] + dx * t, y = a[1] + dy * t; cuff.push(S.straight([x + nx * hw * 0.85, y + ny * hw * 0.85], [x - nx * hw * 0.85, y - ny * hw * 0.85], Math.max(1, u * 0.07), q === 1 ? "#f4f4f4" : C.blue)); }); S.sew(c, cuff);
-        var hand = P(s * 1.52, G.waist + u * 0.02); S.cloth(c, [[hand[0] - u * 0.12, hand[1] - u * 0.12], [hand[0] + u * 0.12, hand[1] - u * 0.12], [hand[0] + u * 0.1, hand[1] + u * 0.16], [hand[0] - u * 0.1, hand[1] + u * 0.16]], C.skin, { pitch: 1, grain: 0.12, shadow: false }); });
+        var ux = dx / Ls, uy = dy / Ls, vx = -uy, vy = ux, W0 = function (a, d, o) { return [a[0] + ux * u * d + vx * u * o, a[1] + uy * u * d + vy * u * o]; };
+        S.cloth(c, [W0(b, -0.02, 0.09), W0(b, 0.24, 0.13), W0(b, 0.24, -0.13), W0(b, -0.02, -0.09)], C.skin, { pitch: 1, grain: 0.12, shadow: false });
+        var fg = []; [[-0.11, 0.34], [-0.04, 0.40], [0.04, 0.39], [0.11, 0.32]].forEach(function (f) { fg.push(S.straight(W0(b, 0.2, f[0]), W0(b, f[1], f[0] * 1.15), Math.max(1.2, u * 0.065), C.skin)); });
+        fg.push(S.straight(W0(b, 0.06, 0.12 * (s > 0 ? -1 : 1)), W0(b, 0.2, 0.2 * (s > 0 ? -1 : 1)), Math.max(1.2, u * 0.07), C.skin)); S.sew(c, fg); });
       /* head and headdress */
       var Ph = function (x, y) { return [cx + x * u, G.headY + (y + 2.9) * u]; };
       S.cloth(c, [Ph(-0.15, -2.62), Ph(0.15, -2.62), Ph(0.17, -2.38), Ph(-0.17, -2.38)], C.skinLo, { pitch: 1, grain: 0.1, shadow: false });
       F.face(c, Ph, u);
       if (kind === "blue") {
-        for (var ring = 0; ring < 7; ring++) { var y = -3.25 - ring * 0.2, half = 0.62 - ring * 0.045, x0 = -half + ring * 0.05;
-          for (var k = 0; k < 10; k++) { var xa = x0 + (k * 2 * half) / 10, xb = xa + (2 * half) / 10; S.cloth(c, [Ph(xa, y), Ph(xb, y), Ph(xb + 0.03, y - 0.2), Ph(xa + 0.03, y - 0.2)], (k + ring) % 2 ? "#151515" : "#f4f4f4", { pitch: 1, grain: 0.25, shadow: ring === 0 }); } }
+        for (var ring = 0; ring < 7; ring++) { var y = -3.25 - ring * 0.2, half = 0.62 - ring * 0.085, half2 = half - 0.085;
+        for (var k = 0; k < 10; k++) { var xa = -half + (k * 2 * half) / 10, xb = xa + (2 * half) / 10, xa2 = -half2 + (k * 2 * half2) / 10, xb2 = xa2 + (2 * half2) / 10; var poly = [Ph(xa, y), Ph(xb, y), Ph(xb2, y - 0.2), Ph(xa2, y - 0.2)];
+          S.cloth(c, poly, (k + ring) % 2 ? "#151515" : "#f4f4f4", { pitch: 1, grain: 0.25, shadow: ring === 0 }); } }
+      S.cloth(c, [Ph(-0.1, -4.65), Ph(0.1, -4.65), Ph(0, -4.95)], "#151515", { pitch: 1, grain: 0.25 });
         var hs = []; for (var b = 0; b < 12; b++) hs.push(S.knot(Ph(-0.6 + b * 0.11, -3.22), Math.max(0.6, u * 0.05), [C.red, C.yellow, C.green, C.white][b % 4])); S.sew(c, hs);
       } else {
         var tb = S.curve([Ph(-0.66, -3.15), Ph(-0.7, -3.6), Ph(-0.4, -3.9), Ph(0, -3.95), Ph(0.4, -3.9), Ph(0.7, -3.6), Ph(0.66, -3.15), Ph(0, -3.25)], true, 6);
@@ -82,6 +87,11 @@
       }
       fac.sort(function (p, q) { return p.z - q.z; });
       var pt = function (a, s, out) { var r = rw + (rh - rw) * s, k = out ? 1 : 0.9; return [cx + Math.sin(a) * r * k, yW + drop * s + Math.cos(a) * r * tilt * (s * 0.9 + 0.1)]; };
+      [-1, 1].forEach(function (s) {
+        var base = [cx + s * rw * 0.9, yW + u * 0.05], out = s * (0.4 + Math.abs(sw) * 1.2) * u, tip = [base[0] + out + sw * u * 0.8, yW + drop * (0.9 - Math.abs(sw) * 0.35)];
+        c.strokeStyle = white ? "#e8577f" : "#c8352e"; c.lineWidth = Math.max(2, u * 0.13); c.lineCap = "round";
+        c.beginPath(); c.moveTo(base[0], base[1]); c.quadraticCurveTo(base[0] + out * 0.4, (base[1] + tip[1]) / 2, tip[0], tip[1]); c.stroke();
+      });
       fac.forEach(function (f) {
         var outer0 = f.j % 2 === 0, lit = outer0 ? 1 : 0.78, side = 0.55 + 0.45 * Math.max(0, f.z), k = lit * side;
         BANDS.forEach(function (b) {
@@ -95,8 +105,8 @@
           c.strokeStyle = S.mix("#e7ecf5", "#0b0a12", 1 - side); c.lineWidth = lw;
           [0.32, 0.46, 0.6].forEach(function (s, q) {
             var m = pt((f.a0 + f.a1) / 2, s, true), d = u * 0.07; c.beginPath();
-            if ((mark + q) % 3 === 0) { c.moveTo(m[0] - d, m[1]); c.lineTo(m[0] + d, m[1]); c.moveTo(m[0], m[1] - d); c.lineTo(m[0], m[1] + d); }
-            else if ((mark + q) % 3 === 1) { c.moveTo(m[0] - d, m[1] - d * 0.6); c.lineTo(m[0], m[1] + d * 0.6); c.lineTo(m[0] + d, m[1] - d * 0.6); }
+            if (q % 3 === 0) { c.moveTo(m[0] - d, m[1]); c.lineTo(m[0] + d, m[1]); c.moveTo(m[0], m[1] - d); c.lineTo(m[0], m[1] + d); }
+            else if (q % 3 === 1) { c.moveTo(m[0] - d, m[1] - d * 0.6); c.lineTo(m[0], m[1] + d * 0.6); c.lineTo(m[0] + d, m[1] - d * 0.6); }
             else { c.rect(m[0] - d * 0.6, m[1] - d * 0.6, d * 1.2, d * 1.2); }
             c.stroke();
           });
@@ -116,11 +126,6 @@
         c.fillStyle = white ? "#d24b7a" : "#c23b2e"; c.fillRect(-u * 0.4, drop * 0.78, u * 0.8 + sw * u * 0.1, u * 0.08);
         c.restore();
       }
-      [-1, 1].forEach(function (s) {
-        var base = [cx + s * rw * 0.9, yW + u * 0.05], out = s * (0.4 + Math.abs(sw) * 1.2) * u, tip = [base[0] + out + sw * u * 0.8, yW + drop * (0.9 - Math.abs(sw) * 0.35)];
-        c.strokeStyle = white ? "#e8577f" : "#c8352e"; c.lineWidth = Math.max(2, u * 0.13); c.lineCap = "round";
-        c.beginPath(); c.moveTo(base[0], base[1]); c.quadraticCurveTo(base[0] + out * 0.4, (base[1] + tip[1]) / 2, tip[0], tip[1]); c.stroke();
-      });
       /* the waistband */
       c.fillStyle = white ? "#1a1a1a" : "#2b2b48"; c.fillRect(cx - rw * 1.05, yW - u * 0.08, rw * 2.1, u * 0.16);
     }

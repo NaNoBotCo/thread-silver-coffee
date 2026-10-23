@@ -14,7 +14,7 @@
   var BANDS = [C.red, C.yellow, C.green, C.white, C.blue, C.pink, C.orange, C.purple];
   var mx = function (a, b, t) { return S.mix(a, b, t); };
 
-  function cmHour() { var d = new Date(); return (d.getUTCHours() + 7 + d.getUTCMinutes() / 60) % 24; }
+  function cmHour() { var q = /[?&]hour=([0-9.]+)/.exec(location.search); if (q) return +q[1] % 24; var d = new Date(); return (d.getUTCHours() + 7 + d.getUTCMinutes() / 60) % 24; }
   function skyOf(h) {
     if (h < 5.5 || h >= 19.3) return { top: "#1c2346", low: "#3a3f6b", night: true, k: 0.5 };
     if (h < 7) return { top: "#8fb3d9", low: "#f3c6a5", night: false, k: 0.82 };
@@ -59,12 +59,11 @@
     S.cloth(c, cone, C.white, { pitch: Math.max(0.9, u * 0.07), grain: 0.25 });
     var stripes = []; for (var d = -8; d < 10; d++) { var col = [C.red, C.white, C.red, C.yellow, C.red, C.white, C.blue][((d % 7) + 7) % 7]; stripes.push({ d: d, col: col }); }
     var inside = function (x, y) { var t = (-3.2 - y) / 1.95, half = 0.6 - t * 0.3; return t >= 0 && t <= 1 && Math.abs(x) < half; };
-    stripes.forEach(function (s) { for (var k = 0; k < 14; k++) { var x = -0.7 + k * 0.1, y = -3.25 - (k * 0.1 + s.d * 0.16 + 0.8) * 0.9; if (inside(x, y)) sts.push(S.knot(P(x, y), W(u, 0.05), s.col)); } });
+    stripes.forEach(function (s) { for (var k = 0; k < 28; k++) { var x = -0.7 + k * 0.05, y = -3.25 - (k * 0.05 + s.d * 0.16 + 0.8) * 0.9; if (inside(x, y)) sts.push(S.knot(P(x, y), W(u, 0.05), s.col)); } });
     /* a column of large flat coins down the front edge */
     for (var cn = 0; cn < 7; cn++) sts = sts.concat(S.coin(P(0, -3.3 - cn * 0.27)[0], P(0, -3.3 - cn * 0.27)[1], Math.max(0.8, u * 0.11)));
     /* fat red pompoms on the crown, a dyed feather or two */
     sts = sts.concat(S.pompom(P(-0.2, -5.2)[0], P(0, -5.2)[1], Math.max(1.1, u * 0.2), C.red, seed + 3), S.pompom(P(0.18, -5.28)[0], P(0, -5.28)[1], Math.max(1.1, u * 0.22), C.red, seed + 4), S.pompom(P(0.02, -5.42)[0], P(0, -5.42)[1], Math.max(1, u * 0.15), C.pink, seed + 5));
-    sts = sts.concat(S.stem([P(0.1, -5.4), P(0.32, -5.85)], W(u, 0.12), W(u, 0.05), C.orange, seed));
     S.sew(c, sts);
   }
   function pawmee(c, P, u, seed) {
@@ -92,10 +91,10 @@
     S.cloth(c, head, C.skin, { pitch: Math.max(0.8, u * 0.05), grain: 0.16, shadow: false });
     var w = W(u, 0.034), sts = [];
     sts.push(S.straight(P(-0.25, -3.07), P(-0.1, -3.09), w, C.hair), S.straight(P(0.1, -3.09), P(0.25, -3.07), w, C.hair));
-    sts.push(S.straight(P(-0.24, -2.99), P(-0.11, -3.0), w * 1.1, C.hair), S.straight(P(0.11, -3.0), P(0.24, -2.99), w * 1.1, C.hair));
-    sts.push(S.knot(P(-0.17, -2.975), W(u, 0.03), "#2a1d14"), S.knot(P(0.17, -2.975), W(u, 0.03), "#2a1d14"));
+    sts.push(S.straight(P(-0.24, -3.04), P(-0.11, -3.05), w * 1.0, C.hair), S.straight(P(0.11, -3.05), P(0.24, -3.04), w * 1.0, C.hair));
+    sts.push(S.knot(P(-0.17, -2.985), W(u, 0.04), "#2a1d14"), S.knot(P(0.17, -2.985), W(u, 0.04), "#2a1d14"), S.knot(P(-0.27, -2.8), W(u, 0.06), "#d98a68"), S.knot(P(0.27, -2.8), W(u, 0.06), "#d98a68"));
     sts.push(S.straight(P(0.02, -2.95), P(0.05, -2.8), w * 0.8, C.skinLo), S.straight(P(-0.03, -2.78), P(0.05, -2.78), w * 0.8, C.skinLo));
-    sts.push(S.straight(P(-0.11, -2.68), P(0, -2.66), w, "#a2443a"), S.straight(P(0, -2.66), P(0.11, -2.68), w, "#a2443a"));
+    sts.push(S.straight(P(-0.14, -2.72), P(-0.07, -2.65), w, "#a2443a"), S.straight(P(-0.07, -2.65), P(0.07, -2.65), w, "#a2443a"), S.straight(P(0.07, -2.65), P(0.14, -2.72), w, "#a2443a"));
     S.sew(c, sts);
   }
   function sleeve(c, a, b, u, seed) {
@@ -197,6 +196,7 @@
     S.sew(c, sts);
     /* the stick she sits on, through the loop */
     S.sew(c, S.stem([P(-0.55, 0.32), P(0.55, 0.32)], 3, W(u, 0.12), C.wood2, 3));
+    S.sew(c, S.stem([P(-0.55, 0.32), P(-0.62, 0.62), P(0.0, 0.78), P(0.62, 0.62), P(0.55, 0.32)], 4, W(u, 0.1), C.rope, 4).concat(S.stem([P(0.55, 0.32), P(1.0, -0.9), P(0.62, -2.6), P(0.2, -3.7)], 4, W(u, 0.1), C.rope, 5)));
     sleeve(c, P(0.05, -2.2), P(0.45, -2.95), u, seed); sleeve(c, P(0.45, -2.95), P(0.12, -3.75), u * 0.9, seed + 2);
     sleeve(c, P(-0.1, -2.15), P(0.3, -2.75), u * 0.95, seed + 4); sleeve(c, P(0.3, -2.75), P(0.1, -3.35), u * 0.85, seed + 6);
     grip(c, P(0.06, -3.82), u, 1); grip(c, P(0.05, -3.4), u, 1);
@@ -265,7 +265,7 @@
       var Wd = st.w, H = st.h, land = Wd >= H * 1.0, g = { land: land };
       g.ground = H * (land ? 0.87 : 0.84);
       if (land) { g.R = Math.min(H * 0.235, Wd * 0.14); g.wx = Wd * 0.75; g.wy = Math.min(g.ground - g.R * 1.78, H * 0.1 + g.R * 1.42); }
-      else { g.R = Math.min(Wd * 0.27, H * 0.17); g.wx = Wd - g.R - g.R * 0.36 - 6; g.wy = g.ground - g.R * 1.8; }
+      else { g.R = Math.min(Wd * 0.27, H * 0.17, (g.ground - H * 0.42) / 3.25); g.wx = Wd - g.R - g.R * 0.36 - 6; g.wy = g.ground - g.R * 1.8; }
       g.u = g.R * 0.155;
       g.hillY = H * (land ? 0.66 : 0.68);
       g.sx = Wd * (land ? 0.47 : 0.24);
@@ -363,7 +363,7 @@
       var om = Math.sqrt(9.8 / Math.max(0.6, g.ropeL / 70));
       swing.v += (-om * om * Math.sin(swing.a)) * dt; swing.v *= 1 - dt * 0.06;
       if (!S.reduced && Math.abs(swing.a) < 0.12 && Math.abs(swing.v) < 0.75) swing.v += (swing.v >= 0 ? 1 : -1) * 0.6 * dt;
-      swing.a = Math.max(-0.75, Math.min(0.75, swing.a + swing.v * dt));
+      swing.a = Math.max(-0.6, Math.min(0.6, swing.a + swing.v * dt));
       c.clearRect(0, 0, Wd, H);
       c.drawImage(state.bg.canvas, 0, 0, Wd, H);
       state.mist.forEach(function (m) { var x = ((m.off + st.t * m.speed) % (Wd + m.w)) - m.w; c.drawImage(m.L.canvas, x, m.y + Math.sin(st.t * 0.3 + m.off) * 3, m.w, m.h); });

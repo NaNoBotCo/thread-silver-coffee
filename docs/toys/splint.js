@@ -24,7 +24,7 @@
     [bS, bP, bC].forEach(function (b) { b.type = "button"; ctl.appendChild(b); });
     var on = false, load = 0, target = 0, hold = 0, ang = { m: 0, p: 0, d: 0 }, bg = null;
     function words() { var l = lang(); bP.textContent = T.press[l]; bC.textContent = T.curl[l]; bS.textContent = on ? T.off[l] : T.on[l]; bS.setAttribute("aria-pressed", on ? "true" : "false"); say.textContent = on ? T.sayOn[l] : T.sayOff[l]; cv.setAttribute("aria-label", T.label[l]); }
-    function fit() { var w = root.clientWidth - 20; cv.style.width = w + "px"; cv.style.height = Math.round(Math.min(window.innerHeight * 0.5, w * 0.72, 440)) + "px"; }
+    function fit() { var w = Math.min(root.clientWidth - 20, 720); cv.style.width = w + "px"; cv.style.margin = "0 auto"; cv.style.height = Math.round(Math.min(window.innerHeight * 0.5, w * 0.62, 420)) + "px"; }
 
     function capsule(a, b, ta, tb) {
       var dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L, nx = -uy, ny = ux, out = [];
